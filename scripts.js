@@ -1,24 +1,95 @@
-/* Step 1) You’re going to store the gameboard as an array inside of a Gameboard object, s
-    Your players are also going to be stored in objects… and you’re probably going to want an object to control the 
-    flow of the game itself.
-    Your main goal here is to have as little global code as possible. 
-    Try tucking everything away inside of a module or factory. 
-    Rule of thumb: if you only ever need ONE of something (gameBoard, displayController), use a module. 
-    If you need multiples of something (players!), create them with factories. */
+const Player = (symbol, name) => {
+  const playerWin = (board) => {
+    // let symbol = currentPlayer.symbol;
+    let playerWin = null;
+    if (board[0] == symbol && board[1] == symbol && board[2] == symbol) {
+      playerWin = true;
+    } else if (board[3] == symbol && board[4] == symbol && board[5] == symbol) {
+      playerWin = true;
+    } else if (board[6] == symbol && board[7] == symbol && board[8] == symbol) {
+      playerWin = true;
+    } else if (board[0] == symbol && board[4] == symbol && board[8] == symbol) {
+      playerWin = true;
+    } else if (board[2] == symbol && board[4] == symbol && board[6] == symbol) {
+      playerWin = true;
+    } else if (board[0] == symbol && board[3] == symbol && board[6] == symbol) {
+      playerWin = true;
+    } else if (board[1] == symbol && board[4] == symbol && board[7] == symbol) {
+      playerWin = true;
+    } else if (board[2] == symbol && board[5] == symbol && board[8] == symbol) {
+      playerWin = true;
+    }
+    return playerWin;
+  };
+  return { symbol, playerWin, name };
+};
 
+const gameBoard = (() => {
+  var board = ["", "", "", "", "", "", "", "", ""];
+  let playerX = Player("X", "Jarryd");
+  let playerO = Player("O", "Ethan");
+  let currentPlayer = playerX;
 
-    const gameBoard = (() => {
-        const board = ['X', '', 'O',,'', 'X', '','X','O','']
-    })()
+  const clearBoard = () => (board = ["", "", "", "", "", "", "", "", ""]);
 
-    const displayController = (() => {
-        const
-    })()
+  const updateBoard = (index) => {
+    if (board[index - 1] == "") {
+      board[index - 1] = currentPlayer.symbol;
+      displayController.updateBoardElement(index, currentPlayer);
+      if (currentPlayer.playerWin(board)) {
+        displayController.announceWinner(currentPlayer.name);
+        displayController.clearBoard();
+      } else if (currentPlayer == playerX) {
+        currentPlayer = playerO;
+      } else {
+        currentPlayer = playerX;
+      }
+    }
+  };
+  return {
+    clearBoard,
+    updateBoard,
+  };
+})();
 
+const displayController = (() => {
+  // Add event listeners
+  for (let index = 1; index < 10; index++) {
+    boardElement = document.getElementById(index.toString());
+    boardElement.addEventListener("click", function (event) {
+      let index = this.id;
+      gameBoard.updateBoard(index);
+      event.target.setAttribute("class", "board-element-click");
+    });
+  }
+  const activateBoard = () => {
+    for (let index = 1; index < 10; index++) {
+      boardElement = document.getElementById(index.toString());
+      boardElement.addEventListener("click", function (event) {
+        let index = this.id;
+        gameBoard.updateBoard(index);
+      });
+    }
+  };
+  const updateBoardElement = (index, currentPlayer) =>
+    (document.getElementById(index.toString()).innerText =
+      currentPlayer.symbol);
 
-    /* Step 2) Build the functions that allow players to add marks to a specific spot on the board, and then tie it to the 
-    DOM, letting players click on the gameboard to place their marker. Don’t forget the logic that keeps players from playing 
-    in spots that are already taken!
-    Think carefully about where each bit of logic should reside. Each little piece of functionality should be able to fit 
-    in the game, player or gameboard objects.. but take care to put them in “logical” places. 
-    Spending a little time brainstorming here can make your life much easier later! */
+  const clearBoard = () => {
+    for (let index = 1; index < 10; index++) {
+      document.getElementById(index.toString()).innerText = "";
+      gameBoard.clearBoard();
+    }
+  };
+  const announceWinner = (currentPlayer) => {
+    document.getElementById("winner-text").innerText =
+      "The winner is " + currentPlayer;
+  };
+
+  return {
+    announceWinner,
+    clearBoard,
+    activateBoard,
+    updateBoardElement,
+  };
+})();

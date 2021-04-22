@@ -4,6 +4,7 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: #61C9A8;
 }
 
 .container{
@@ -19,17 +20,20 @@ body{
     text-transform: uppercase;
     text-align: center;
     justify-content: center;
+    color: black
 }
 
 .game-board{
     display: flex;
     flex-direction: column;
+
 }
 
 .row-element{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    background-color: #FFEEDB;
 }
 
 .board-element{
@@ -44,7 +48,20 @@ body{
     font-size: 1000%;
 }
 
-.footer{
+.board-element-click{
+    display: flex;
+    border-style: solid;
+    width: 250px;
+    height:250px;
+    padding: 0px;
+    margin: 0px;
+    justify-content: center;
+    align-items: center;
+    font-size: 1000%;
+    background-color: #BA3B46;
+}
+
+.winner-text{
     display:flex;
     font-size: xx-large;
     text-transform: uppercase;
@@ -52,4 +69,5 @@ body{
     justify-content: center;
     padding: 40px;
     font-weight: 700;
+    color: black
 }
