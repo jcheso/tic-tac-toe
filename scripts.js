@@ -7,6 +7,15 @@
     If you need multiples of something (players!), create them with factories. */
 
 
+    const gameBoard = (() => {
+        const board = ['X', '', 'O',,'', 'X', '','X','O','']
+    })()
+
+    const displayController = (() => {
+        const
+    })()
+
+
     /* Step 2) Build the functions that allow players to add marks to a specific spot on the board, and then tie it to the 
     DOM, letting players click on the gameboard to place their marker. Don’t forget the logic that keeps players from playing 
     in spots that are already taken!
